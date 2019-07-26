@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trivia Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.js"
+    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
+    crossorigin="anonymous"></script>
+    <script src="./assets/javascript/app.js"></script>
+    
+</head>
+<body>
+    <div id="mainbox">
+        <h1>The Amazing Spider-Man Trivia Game</h1>
+        <div id="startpage">
+            <h2>Win the game to save Uncle Ben!</h2>
+            <button id="startgame">Web Swing into Action</button>          
+        </div>
+
+        <div id="questionpage">
+            <h1>Time remaining: <span id="time"></span> Seconds</h1>
+            <h2 id="question"></h2>
+            <div id="choices">
+                <div>
+                    <button id="choice0"></button>
+                </div>
+                <div>
+                    <button id="choice1"></button>
+                </div>
+                <div>
+                    <button id="choice2"></button>
+                </div>
+                <div>
+                    <button id="choice3"></button>
+                </div>
+            </div>
+            <div id="outoftime">
+                <h2>
+                    Time's Up!!!
+                </h2>
+            </div>
+            <div id="correctanswer"></div>
+        </div>
+    </div>
+</div>
+    <div id="win"> </div>
+    <div id="lose"></div>
+        
+   
+       
+</body>
+</html>

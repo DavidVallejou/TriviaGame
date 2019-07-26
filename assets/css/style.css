@@ -1,0 +1,32 @@
+
+
+#startgame {
+    text-align: center;
+    margin-top: 100px;  
+}
+
+#startpage {
+
+}
+
+#questionpage {
+
+}
+
+.hide {
+    display: none;
+}
+
+#mainbox {
+    width: 1200px;
+    height: 650px;
+    border: 5px solid black;
+    box-sizing: border-box;
+    margin: auto;
+    text-align: center;
+    background-color: blue
+}
+
+body {
+    background-color: red;
+}
