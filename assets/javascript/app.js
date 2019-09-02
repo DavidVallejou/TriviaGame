@@ -10,14 +10,15 @@
 // Once game finishes, display number of "correct" answers, display number of "incorrect" answers and list "unaswered".
 //Provide a "start over" button to begin the game
 
-var questionTimeMs = 30000;   
+var questionTimeMs = 30000;
 var questionIndex = 0;
 var currentTimeRemaining;
 var timeRemainingInterval;
 var currentAnswer;
-var choiceIndex =0;
-var win = 0;
-var lose = 0;
+var choices;
+var choiceIndex = 0;
+var numCorrect = 0;
+var numWrong = 0;
 
 var questions = [
     {
@@ -26,107 +27,67 @@ var questions = [
         answer: "Amazing Fantasy"
     },
     {
-        qquestion: "What villain did Spider-Man fight in issue Amazing Spider-Man #3?",
-
+        question: "What villain did Spider-Man fight in issue Amazing Spider-Man #3?",
         choices: ["Green Goblin", "SuperCharger", "Terrible Tinkerer", "Doctor Octopus"],
-
         answer: "Doctor Octopus",
-
     },
-
     {
-
         question: "Which character bullied Peter Parker in high school?",
-
-        choices: ["The Rhino", "Doctor Octopus", "Green Goblin", "Electro"],
-
-        answer: "Green Goblin",
-
-    },
-
-    {
-
-        question: "Which character bullied Peter Parker in high school?",
-
         choices: ["Biff Tannen", "Flash Thompson", "Robbie Robertson", "Harry Osborn"],
-
         answer: "Flash Thompson",
-
     },
-
     {
-
         question: "What is Peter Parker's middle name",
-
         choices: ["Christian", "Eric", "Benjamin", "Will"],
-
         answer: "Benjamin",
-
     },
 
     {
-
         question: "What did Spider-Man bring home from the first 'Secret Wars?'",
-
         choices: ["New girlfriend", "Alien Flu", "Key Chain", "Symbiote"],
-
         answer: "Symbiote",
-
     },
-
     {
-
         question: "Where was Peter Parker born?",
-
         choices: ["Paterson", "Coding Bootcamp", "Queens", "California"],
-
         answer: "Queens",
-
     },
-
-    {
-
-        question: "What color is Mary Jane Watson's hair?",
-
-        choices: ["What color is Mary Jane Watson's hair?"]},
-
-       
-
 ];
 
-function outOfTime() {
+function showOutOfTimePage() {
+    numWrong++;
     $("#choices").hide();
     $("#outoftime").show();
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("#outoftime").hide();
         askQuestion();
     }, 5000);
 }
 
 function updateTimeRemaining() {
+    currentTimeRemaining--;
     $("#time").text(currentTimeRemaining)
 
-    currentTimeRemaining--;
-
-    if (currentTimeRemaining === -1) {        
+    if (currentTimeRemaining === 0) {
         clearInterval(timeRemainingInterval);
-        outOfTime();
+        showOutOfTimePage();
+        return;
     }
 }
 
 function askQuestion() {
     if (questionIndex === questions.length) {
-        alert("done");
+        showDonePage();
         return;
     }
 
     var questionObj = questions[questionIndex];
     var question = questionObj.question;
-    var choices = questionObj.choices;
+    choices = questionObj.choices;
     currentAnswer = questionObj.answer;
 
-    currentTimeRemaining = 30;
+    currentTimeRemaining = 15;
 
     $("#time").text(currentTimeRemaining)
     $("#question").text(question)
@@ -135,7 +96,7 @@ function askQuestion() {
     $("#choice2").text(choices[2])
     $("#choice3").text(choices[3])
 
-    timeRemainingInterval = setInterval(updateTimeRemaining, 1000);    
+    timeRemainingInterval = setInterval(updateTimeRemaining, 1000);
 
     questionIndex++;
     $("#choices").show();
@@ -148,50 +109,95 @@ function startGame() {
     askQuestion();
 }
 
-// function choice0Clicked() {                           <--------I had trouble making all in green work
-//     $("#choice0").on("click", choice0Clicked);
-// if (currentAnswer === choiceIndex[0])
-//     $("#choice0").text(win)
-//     else (currentAnswer < choiceIndex[0]
-//         $("#choice0").text(lose)
-    
+function choice0Clicked() {
+    if (currentAnswer === choices[0]) {
+        showCorrectPage();
+    } else {
+        showWrongPage();
+    }
+}
 
-// }
+function choice1Clicked() {
+    if (currentAnswer === choices[1]) {
+        showCorrectPage();
+    } else {
+        showWrongPage();
+    }
+}
 
-// function choice1Clicked() {
+function choice2Clicked() {
+    if (currentAnswer === choices[2]) {
+        showCorrectPage();
+    } else {
+        showWrongPage();
+    }
+}
 
-//     $("#choice1").on("click", choice1Clicked);
-//     if (currentAnswer === choiceIndex[1])
-//         $("#choice1").text(win)
-// }
+function choice3Clicked() {
+    if (currentAnswer === choices[3]) {
+        showCorrectPage();
+    } else {
+        showWrongPage();
+    }
+}
 
-// function choice2Clicked() {
+function showCorrectPage() {
+    numCorrect++;
+    $("#choices").hide();
+    $("#correctanswer").show();
 
-//     $("#choice0").on("click", choice0Clicked);
-//     if (currentAnswer === choiceIndex[2])
-//         $("#choice0").text(win)
-//         else (currentAnswer < choiceIndex[2]
-//             $("#choice0").text(lose)
-        
-// }
+    askNextQuestion();
+}
 
-// function choice3Clicked() {
+function showWrongPage() {
+    numWrong++;
+    $("#choices").hide();
+    $("#wronganswer").show();
 
-    
-//     $("#choice0").on("click", choice0Clicked);
-//     if (currentAnswer === choiceIndex[3])
-//         $("#choice0").text(win)
-//         else (currentAnswer < choiceIndex[3]
-//             $("#choice0").text(lose)
-// }
+    askNextQuestion();
+}
+
+function askNextQuestion() {
+    clearInterval(timeRemainingInterval);
+
+    setTimeout(function() {
+        $("#correctanswer").hide();
+        $("#wronganswer").hide();
+
+        askQuestion();
+    }, 2000);
+}
+
+function showDonePage() {
+    $("#questionpage").hide();
+    $("#donepage").show();
+    $("#numcorrect").text(numCorrect);
+    $("#numwrong").text(numWrong);
+}
+
+function restartGame() {
+    $("#correctanswer").hide();
+    $("#wronganswer").hide();
+    $("#donepage").hide();
+
+    questionIndex = 0;
+    numCorrect = 0;
+    numWrong = 0;
+    startGame();
+}
 
 function documentReadyCallback() {
     $("#questionpage").hide();
     $("#outoftime").hide();
-    $("#startgame").on("click", startGame);
-    
-    
-       
+    $("#correctanswer").hide();
+    $("#wronganswer").hide();
+    $("#donepage").hide();
+    $("#startgame").click(startGame);
+    $("#choice0").click(choice0Clicked);
+    $("#choice1").click(choice1Clicked);
+    $("#choice2").click(choice2Clicked);
+    $("#choice3").click(choice3Clicked);
+    $("#retrybutton").click(restartGame);
 }
 
 $(document).ready(documentReadyCallback);
